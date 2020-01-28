@@ -134,6 +134,14 @@ class BinarySearchTree {
     // recursively return the left's min as long as the left node is not null
     return this.left._findMin();
   }
+
+  _findMax() {
+    if (!this.right) {
+      return this;
+    }
+    // recursively return the left's min as long as the left node is not null
+    return this.right._findMax();
+  }
 }
 
 module.exports = BinarySearchTree;
