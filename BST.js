@@ -1,4 +1,6 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable quotes */
+
 class BinarySearchTree {
   constructor(key = null, value = null, parent = null) {
     this.key = key;
@@ -18,7 +20,7 @@ class BinarySearchTree {
     else if (key < this.key) {
       //if the left node is available, then insert the item with key, value, and parent as this
       if (!this.left) {
-        this.left = new BinarySearchTree(key, value, this);
+        this.left = new BinarySearchTree(key, value, this.value);
       }
       // recursively insert left when the left node is not available
       else {
@@ -27,7 +29,7 @@ class BinarySearchTree {
     } else {
       //same logic for the right side of the tree
       if (!this.right) {
-        this.right = new BinarySearchTree(key, value, this);
+        this.right = new BinarySearchTree(key, value, this.value);
       } else {
         this.right.insert(key, value);
       }
@@ -36,7 +38,7 @@ class BinarySearchTree {
 
   find(key) {
     //if item is found at root, return the value at the key
-    if (this.key === key) {
+    if (this.key == key) {
       return this.value;
     }
     // if left traversal needed and left child is not null, then recursively check its left and right children until you find the item
@@ -51,7 +53,7 @@ class BinarySearchTree {
 
   remove(key) {
     // if removing this.key, then also check left and right children. if they are not null, then find the smallest value on the right side. Can also find the largest value on the left side. Set key and value to those of the replacement AND recursively remove the replacement's key.
-    if (this.key === key) {
+    if (this.key == key) {
       if (this.left && this.right) {
         const replacement = this.right._findMin();
         this.key = replacement.key;
@@ -79,12 +81,28 @@ class BinarySearchTree {
     }
   }
 
+  levelCount() {
+    let left = 0;
+    let right = 0;
+
+    if (this.left) {
+      left = this.left.levelCount() + 1;
+    }
+    if (this.right) {
+      right = this.right.levelCount() + 1;
+    }
+    if (left > right) {
+      return left;
+    } else {
+      return right;
+    }
+  }
   _replaceWith(node) {
     // as long as the parent node has a value, and if this is equal to the parent's left node, then set the parent's left key to node we are sending it to replace existing item
     if (this.parent) {
-      if (this === this.parent.left) {
+      if (this == this.parent.left) {
         this.parent.left = node;
-      } else if (this === this.parent.right) {
+      } else if (this == this.parent.right) {
         this.parent.right = node;
       }
       // for nodes that are not null
@@ -117,3 +135,5 @@ class BinarySearchTree {
     return this.left._findMin();
   }
 }
+
+module.exports = BinarySearchTree;
